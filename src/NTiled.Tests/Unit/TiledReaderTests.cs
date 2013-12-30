@@ -215,6 +215,17 @@ namespace NTiled.Tests.Unit
             }
 
             [Fact]
+            public void Should_Read_Tileset_Tile_Information()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, result.Tilesets[0].Tiles.Count);
+                Assert.Equal(7, result.Tilesets[0].Tiles[0].Id);
+                Assert.Equal("Foo", result.Tilesets[0].Tiles[0].Properties["TileProperty1"]);
+            }
+
+            [Fact]
             public void Should_Read_Tile_Layers()
             {
                 // Given, When
@@ -297,13 +308,13 @@ namespace NTiled.Tests.Unit
             }
 
             [Fact]
-            public void Should_Read_Tile_Layer_Data_If_Compressed_With_GZip_And_Encoded_With_Base64()
+            public void Should_Read_Tile_Layer_Indices_If_Compressed_With_GZip_And_Encoded_With_Base64()
             {
                 // Given, When
                 var result = new TiledReader().Read(_map);
                 // Then
-                Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x.Index != 0));
-                Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x.Index != 0).Index);
+                Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
+                Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
             }
         }
     }

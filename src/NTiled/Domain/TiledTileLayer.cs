@@ -28,7 +28,7 @@ namespace NTiled
     /// </summary>
     public sealed class TiledTileLayer : TiledLayer
     {
-        private TiledTile[] _tiles;
+        private int[] _tiles;
 
         /// <summary>
         /// Gets the tiles in the layer.
@@ -36,7 +36,7 @@ namespace NTiled
         /// <value>
         /// The tiles in the layer.
         /// </value>
-        public TiledTile[] Tiles
+        public int[] Tiles
         {
             get { return _tiles; }
         }
@@ -45,7 +45,7 @@ namespace NTiled
         /// Sets the tiles in the layer.
         /// </summary>
         /// <param name="tiles">The tiles in the layer.</param>
-        public void SetTileData(TiledTile[] tiles)
+        public void SetTileData(int[] tiles)
         {
             _tiles = tiles;
         }

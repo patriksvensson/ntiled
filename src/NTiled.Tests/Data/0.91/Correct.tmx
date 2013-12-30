@@ -5,8 +5,13 @@
  </properties>
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" spacing="2" margin="1">
   <image source="graphics/tileset.png" width="100" height="50"/>
+  <tile id="7">
+   <properties>
+    <property name="TileProperty1" value="Foo"/>
+   </properties>
+  </tile>
  </tileset>
- <tileset firstgid="26" name="Tileset With Drawing Offset" tilewidth="16" tileheight="16" spacing="2" margin="1">
+ <tileset firstgid="11" name="Tileset With Drawing Offset" tilewidth="16" tileheight="16" spacing="2" margin="1">
   <tileoffset x="1" y="2"/>
   <image source="graphics/tileset.png" width="100" height="50"/>
  </tileset>

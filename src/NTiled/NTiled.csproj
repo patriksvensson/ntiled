@@ -47,6 +47,7 @@
     <Compile Include="Domain\TiledLayer.cs" />
     <Compile Include="Domain\TiledLayerCollection.cs" />
     <Compile Include="Domain\TiledTile.cs" />
+    <Compile Include="Domain\TiledTileCollection.cs" />
     <Compile Include="Domain\TiledTileLayer.cs" />
     <Compile Include="TiledException.cs" />
     <Compile Include="Domain\TiledMap.cs" />

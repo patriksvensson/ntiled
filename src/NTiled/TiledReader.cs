@@ -115,9 +115,39 @@ namespace NTiled
                 tileset.OffsetX = offset.Item1;
                 tileset.OffsetY = offset.Item2;
 
+                // Read tile metadata.
+                var tileMetadata = ReadTilesetMetadata(tilesetElement);
+                if (tileMetadata.Count > 0)
+                {
+                    tileset.Tiles.AddRange(tileMetadata);
+                }
+
                 // Add the tileset to the map.
                 map.Tilesets.Add(tileset);
             }
+        }
+
+        private static List<TiledTile> ReadTilesetMetadata(XElement root)
+        {
+            List<TiledTile> tiles = new List<TiledTile>();
+            IEnumerable<XElement> tileElements = root.Elements("tile");
+            foreach (XElement tileElement in tileElements)
+            {
+                TiledTile tile = new TiledTile();
+                tile.Id = XmlHelper.ReadAttribute(tileElement, "id", 0);
+
+                var properties = ReadProperties(tileElement);
+                if (properties.Count > 0)
+                {
+                    foreach (var property in properties)
+                    {
+                        tile.Properties.Add(property.Key, property.Value);
+                    }
+                }
+
+                tiles.Add(tile);
+            }
+            return tiles;
         }
 
         private static void ReadLayers(TiledMap map, XElement root)
@@ -180,10 +210,10 @@ namespace NTiled
                 using (GZipStream uncompressed = new GZipStream(unencoded, CompressionMode.Decompress, false))
                 using (BinaryReader reader = new BinaryReader(uncompressed))
                 {
-                    var tiles = new TiledTile[layer.Width * layer.Height];
+                    var tiles = new int[layer.Width * layer.Height];
                     for (int i = 0; i < layer.Width * layer.Height; i++)
                     {
-                        tiles[i] = new TiledTile { Index = reader.ReadInt32() };
+                        tiles[i] = reader.ReadInt32();
                     }
                     layer.SetTileData(tiles);
                 }

@@ -28,6 +28,8 @@ namespace NTiled
     /// </summary>
     public sealed class TiledTileset
     {
+        private readonly TiledTileCollection _tiles;
+
         /// <summary>
         /// Gets or sets the first tile index in the tileset.
         /// </summary>
@@ -82,11 +84,20 @@ namespace NTiled
         public TiledImage Image { get; set; }
 
         /// <summary>
+        /// Gets the tiles.
+        /// </summary>
+        /// <value>The tiles.</value>
+        public TiledTileCollection Tiles
+        {
+            get { return _tiles; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TiledTileset"/> class.
         /// </summary>
         public TiledTileset()
         {
-            this.Image = null;
+            _tiles = new TiledTileCollection();
         }
     }
 }

@@ -34,7 +34,7 @@ namespace NTiled
         /// Gets or sets the tileset index.
         /// </summary>
         /// <value>The tileset index.</value>
-        public int Index { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the properties.
@@ -52,7 +52,7 @@ namespace NTiled
         {
             _properties = new TiledPropertyCollection();
 
-            this.Index = 0;
+            this.Id = 0;
         }
     }
 }
