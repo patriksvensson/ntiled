@@ -28,7 +28,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Xml.Linq;
-using NTiled.Utilties;
 
 namespace NTiled
 {
@@ -48,16 +47,16 @@ namespace NTiled
             var map = new TiledMap();
 
             // Get the document root.
-            var root = XmlHelper.GetDocumentRoot(document, "map");
+            var root = document.GetDocumentRoot("map");
 
             // Read the map information.
-            map.Version = Version.Parse(XmlHelper.ReadAttribute(root, "version", "1.0"));
-            map.Orientation = XmlHelper.ReadAttribute(root, "orientation", string.Empty);
-            map.Width = XmlHelper.ReadAttribute(root, "width", 0);
-            map.Height = XmlHelper.ReadAttribute(root, "height", 0);
-            map.TileWidth = XmlHelper.ReadAttribute(root, "tilewidth", 0);
-            map.TileHeight = XmlHelper.ReadAttribute(root, "tileheight", 0);
-            map.BackgroundColor = ColorTranslator.FromHtml(XmlHelper.ReadAttribute(root, "backgroundcolor", string.Empty));
+            map.Version = Version.Parse(root.ReadAttribute("version", "1.0"));
+            map.Orientation = root.ReadAttribute("orientation", string.Empty);
+            map.Width = root.ReadAttribute("width", 0);
+            map.Height = root.ReadAttribute("height", 0);
+            map.TileWidth = root.ReadAttribute("tilewidth", 0);
+            map.TileHeight = root.ReadAttribute("tileheight", 0);
+            map.BackgroundColor = ColorTranslator.FromHtml(root.ReadAttribute("backgroundcolor", string.Empty));
 
             // Read the map's properties.
             var properties = ReadProperties(root);
@@ -78,13 +77,13 @@ namespace NTiled
         private static IDictionary<string, string> ReadProperties(XElement root)
         {
             var properties = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            var element = XmlHelper.GetElement(root, "properties");
+            var element = root.GetElement("properties");
             if (element != null)
             {
-                foreach (var property in XmlHelper.GetElements(element, "property"))
+                foreach (var property in element.GetElements("property"))
                 {
-                    var key = XmlHelper.ReadAttribute(property, "name", string.Empty);
-                    var value = XmlHelper.ReadAttribute(property, "value", string.Empty);
+                    var key = property.ReadAttribute("name", string.Empty);
+                    var value = property.ReadAttribute("value", string.Empty);
                     properties.Add(key, value);
                 }
             }
@@ -93,19 +92,19 @@ namespace NTiled
 
         private static void ReadTilesets(TiledMap map, XElement root)
         {
-            foreach (var tilesetElement in XmlHelper.GetElements(root, "tileset"))
+            foreach (var tilesetElement in root.GetElements("tileset"))
             {
                 var tileset = new TiledTileset();
 
                 // Read mandatory attributes.
-                tileset.FirstId = XmlHelper.ReadAttribute(tilesetElement, "firstgid", 0);
-                tileset.Name = XmlHelper.ReadAttribute(tilesetElement, "name", string.Empty);
-                tileset.TileWidth = XmlHelper.ReadAttribute(tilesetElement, "tilewidth", 0);
-                tileset.TileHeight = XmlHelper.ReadAttribute(tilesetElement, "tileheight", 0);
+                tileset.FirstId = tilesetElement.ReadAttribute("firstgid", 0);
+                tileset.Name = tilesetElement.ReadAttribute("name", string.Empty);
+                tileset.TileWidth = tilesetElement.ReadAttribute("tilewidth", 0);
+                tileset.TileHeight = tilesetElement.ReadAttribute("tileheight", 0);
 
                 // Read optional attributes.
-                tileset.Spacing = XmlHelper.ReadAttribute(tilesetElement, "spacing", 0);
-                tileset.Margin = XmlHelper.ReadAttribute(tilesetElement, "margin", 0);
+                tileset.Spacing = tilesetElement.ReadAttribute("spacing", 0);
+                tileset.Margin = tilesetElement.ReadAttribute("margin", 0);
 
                 // Read the tileset image.
                 tileset.Image = ReadImage(tilesetElement);
@@ -134,7 +133,7 @@ namespace NTiled
             foreach (XElement tileElement in tileElements)
             {
                 TiledTile tile = new TiledTile();
-                tile.Id = XmlHelper.ReadAttribute(tileElement, "id", 0);
+                tile.Id = tileElement.ReadAttribute("id", 0);
 
                 var properties = ReadProperties(tileElement);
                 if (properties.Count > 0)
@@ -169,13 +168,13 @@ namespace NTiled
             TiledTileLayer layer = new TiledTileLayer();
 
             // Read generic layer information.
-            layer.Name = XmlHelper.ReadAttribute(root, "name", string.Empty);
-            layer.X = XmlHelper.ReadAttribute(root, "x", 0);
-            layer.Y = XmlHelper.ReadAttribute(root, "y", 0);
-            layer.Width = XmlHelper.ReadAttribute(root, "width", 0);
-            layer.Height = XmlHelper.ReadAttribute(root, "height", 0);
-            layer.Opacity = XmlHelper.ReadAttribute(root, "opacity", 1f);
-            layer.Visible = XmlHelper.ReadAttribute(root, "visible", true);
+            layer.Name = root.ReadAttribute("name", string.Empty);
+            layer.X = root.ReadAttribute("x", 0);
+            layer.Y = root.ReadAttribute("y", 0);
+            layer.Width = root.ReadAttribute("width", 0);
+            layer.Height = root.ReadAttribute("height", 0);
+            layer.Opacity = root.ReadAttribute("opacity", 1f);
+            layer.Visible = root.ReadAttribute("visible", true);
 
             // Read layer properties.
             var properties = ReadProperties(root);
@@ -197,8 +196,8 @@ namespace NTiled
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         private static void ReadTileLayerData(TiledTileLayer layer, XElement root)
         {
-            string encoding = XmlHelper.ReadAttribute<string>(root, "encoding", null);
-            string compression = XmlHelper.ReadAttribute<string>(root, "compression", null);
+            string encoding = root.ReadAttribute<string>("encoding", null);
+            string compression = root.ReadAttribute<string>("compression", null);
 
             bool canUnencode = encoding != null && encoding.Equals("base64", StringComparison.OrdinalIgnoreCase);
             bool canDecompress = compression != null && compression.Equals("gzip", StringComparison.OrdinalIgnoreCase);
@@ -222,11 +221,11 @@ namespace NTiled
 
         private static Tuple<int, int> ReadTileOffset(XElement root)
         {
-            var element = XmlHelper.GetElement(root, "tileoffset");
+            var element = root.GetElement("tileoffset");
             if (element != null)
             {
-                int x = XmlHelper.ReadAttribute(element, "x", 0);
-                int y = XmlHelper.ReadAttribute(element, "y", 0);
+                int x = element.ReadAttribute("x", 0);
+                int y = element.ReadAttribute("y", 0);
                 return new Tuple<int, int>(x, y);
             }
             return new Tuple<int, int>(0, 0);
@@ -234,13 +233,13 @@ namespace NTiled
 
         private static TiledImage ReadImage(XElement root)
         {
-            var imageElement = XmlHelper.GetElement(root, "image");
+            var imageElement = root.GetElement("image");
             if (imageElement != null)
             {
                 var image = new TiledImage();
-                image.Source = XmlHelper.ReadAttribute(imageElement, "source", string.Empty);
-                image.Width = XmlHelper.ReadAttribute(imageElement, "width", 0);
-                image.Height = XmlHelper.ReadAttribute(imageElement, "height", 0);
+                image.Source = imageElement.ReadAttribute("source", string.Empty);
+                image.Width = imageElement.ReadAttribute("width", 0);
+                image.Height = imageElement.ReadAttribute("height", 0);
                 return image;
             }
             return null;

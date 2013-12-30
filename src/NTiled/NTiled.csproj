@@ -57,8 +57,8 @@
     <Compile Include="Domain\TiledTileset.cs" />
     <Compile Include="Domain\TiledTilesetCollection.cs" />
     <Compile Include="Domain\TiledImage.cs" />
-    <Compile Include="Utilties\ConversionHelper.cs" />
-    <Compile Include="Utilties\XmlHelper.cs" />
+    <Compile Include="Utilties\StringExtensions.cs" />
+    <Compile Include="Utilties\XmlExtensions.cs" />
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>

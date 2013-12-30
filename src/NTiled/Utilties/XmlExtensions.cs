@@ -26,11 +26,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace NTiled.Utilties
+namespace NTiled
 {
-    internal static class XmlHelper
+    internal static class XmlExtensions
     {
-        public static XElement GetDocumentRoot(XDocument document, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public static XElement GetDocumentRoot(this XDocument document, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             if (document.Root != null)
             {
@@ -43,24 +43,24 @@ namespace NTiled.Utilties
             return null;
         }
 
-        public static XElement GetElement(XElement element, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public static XElement GetElement(this XElement element, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             return element.Elements().FirstOrDefault(e => e.Name.LocalName.Equals(name, comparison));
         }
 
-        public static IEnumerable<XElement> GetElements(XElement element, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public static IEnumerable<XElement> GetElements(this XElement element, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             return element.Elements().Where(e => e.Name.LocalName.Equals(name, comparison));
         }
 
-        public static T ReadAttribute<T>(XElement element, string name, T defaultValue)
+        public static T ReadAttribute<T>(this XElement element, string name, T defaultValue)
         {
             if (element != null)
             {
                 XAttribute attribute = element.Attribute(name);
                 if (attribute != null)
                 {
-                    return ConversionHelper.Convert(attribute.Value, defaultValue);
+                    return attribute.Value.Convert(defaultValue);
                 }
             }
             return defaultValue;

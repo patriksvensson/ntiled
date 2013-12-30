@@ -23,11 +23,11 @@
 // 
 using System.ComponentModel;
 
-namespace NTiled.Utilties
+namespace NTiled
 {
-    internal static class ConversionHelper
+    internal static class StringExtensions
     {
-        public static T Convert<T>(string value, T defaultValue)
+        public static T Convert<T>(this string value, T defaultValue)
         {
             if (value != null)
             {
