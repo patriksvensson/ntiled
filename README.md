@@ -2,6 +2,12 @@
 
 A library for working with Tiled 0.91 maps (tmx).
 
+##NuGet
+
+```
+PM> Install-Package NTiled
+```
+
 ##Road map
 
 * Terrain support.
