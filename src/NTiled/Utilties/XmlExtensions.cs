@@ -53,6 +53,16 @@ namespace NTiled
             return element.Elements().Where(e => e.Name.LocalName.Equals(name, comparison));
         }
 
+        public static bool HasAttribute(this XElement element, string name)
+        {
+            if (element != null)
+            {
+                XAttribute attribute = element.Attribute(name);
+                return attribute != null;
+            }
+            return false;
+        }
+
         public static T ReadAttribute<T>(this XElement element, string name, T defaultValue)
         {
             if (element != null)

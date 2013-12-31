@@ -44,8 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Objects\TiledTileObject.cs" />
     <Compile Include="Domain\TiledLayer.cs" />
     <Compile Include="Domain\TiledLayerCollection.cs" />
+    <Compile Include="Domain\TiledObject.cs" />
+    <Compile Include="Domain\TiledObjectGroup.cs" />
     <Compile Include="Domain\TiledTile.cs" />
     <Compile Include="Domain\TiledTileCollection.cs" />
     <Compile Include="Domain\TiledTileLayer.cs" />

@@ -4,7 +4,7 @@
   <property name="MapProperty1" value="Hello"/>
  </properties>
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" spacing="2" margin="1">
-  <image source="graphics/tileset.png" width="100" height="50"/>
+  <image source="../graphics/tileset.png" trans="ff0000" width="100" height="50"/>
   <tile id="7">
    <properties>
     <property name="TileProperty1" value="Foo"/>
@@ -13,7 +13,7 @@
  </tileset>
  <tileset firstgid="11" name="Tileset With Drawing Offset" tilewidth="16" tileheight="16" spacing="2" margin="1">
   <tileoffset x="1" y="2"/>
-  <image source="graphics/tileset.png" width="100" height="50"/>
+  <image source="../graphics/tileset.png" width="100" height="50"/>
  </tileset>
  <layer name="Background" width="40" height="30" x="1" y="2" opacity="0.99">
   <properties>
@@ -23,9 +23,20 @@
    H4sIAAAAAAAAC+3OAQkAAAgDsGP/0KY4ImwJlgAA9Mx1AACA9xaol7NawBIAAA==
   </data>
  </layer>
- <layer name="Foreground" width="40" height="30">
+ <layer name="Foreground" width="40" height="30" opacity="0.8">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC+3OMQEAAAgDoNm/tA32eggJSAAAfpvrAAAA1QJNs79ywBIAAA==
   </data>
  </layer>
+ <objectgroup color="#55aa00" name="Objects" width="40" height="30" x="1" y="2" opacity="0.98">
+  <properties>
+   <property name="ObjectGroupProperty1" value="Baz"/>
+  </properties>
+  <object name="Tile" type="Treasure" gid="8" x="304" y="192" width="32" height="16">
+   <properties>
+    <property name="TileObjectProperty1" value="Bar"/>
+   </properties>
+  </object>
+  <object x="288" y="160" width="48" height="16"/>
+ </objectgroup>
 </map>

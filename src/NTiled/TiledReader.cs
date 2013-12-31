@@ -160,6 +160,10 @@ namespace NTiled
                 {
                     ReadTileLayer(map, element);
                 }
+                else if (layerType.Equals("objectgroup", StringComparison.OrdinalIgnoreCase))
+                {
+                    ReadObjectGroup(map, element);
+                }
             }
         }
 
@@ -168,20 +172,7 @@ namespace NTiled
             TiledTileLayer layer = new TiledTileLayer();
 
             // Read generic layer information.
-            layer.Name = root.ReadAttribute("name", string.Empty);
-            layer.X = root.ReadAttribute("x", 0);
-            layer.Y = root.ReadAttribute("y", 0);
-            layer.Width = root.ReadAttribute("width", 0);
-            layer.Height = root.ReadAttribute("height", 0);
-            layer.Opacity = root.ReadAttribute("opacity", 1f);
-            layer.Visible = root.ReadAttribute("visible", true);
-
-            // Read layer properties.
-            var properties = ReadProperties(root);
-            foreach (var property in properties)
-            {
-                layer.Properties.Add(property.Key, property.Value);
-            }
+            ReadGenericLayerInformation(layer, root);
 
             // Read layer data.
             XElement dataElement = root.Element("data");
@@ -216,6 +207,76 @@ namespace NTiled
                     }
                     layer.SetTileData(tiles);
                 }
+            }
+        }
+
+        private static void ReadObjectGroup(TiledMap map, XElement root)
+        {
+            var layer = new TiledObjectGroup();
+
+            // Read generic layer information.
+            ReadGenericLayerInformation(layer, root);
+
+            // Read the used to display the objects in this group (if any).
+            layer.Color = ColorTranslator.FromHtml(root.ReadAttribute("color", string.Empty));
+
+            // Read all objects.
+            foreach (var objectElement in root.GetElements("object"))
+            {
+                if (objectElement.HasAttribute("gid"))
+                {
+                    ReadTileObject(layer, objectElement);
+                }
+            }
+
+            map.Layers.Add(layer);
+        }
+
+        private static void ReadTileObject(TiledObjectGroup layer, XElement root)
+        {
+            var tileObject = new TiledTileObject();
+
+            // Read generic object information.
+            ReadGenericObjectInformation(tileObject, root);
+
+            // Read tile specific stuff.
+            tileObject.Tile = root.ReadAttribute("gid", 0);
+
+            layer.Objects.Add(tileObject);
+        }
+
+        private static void ReadGenericObjectInformation(TiledObject obj, XElement root)
+        {
+            obj.Name = root.ReadAttribute("name", string.Empty);
+            obj.Type = root.ReadAttribute("type", string.Empty);
+            obj.X = root.ReadAttribute("x", 0);
+            obj.Y = root.ReadAttribute("y", 0);
+            obj.Width = root.ReadAttribute("width", 0);
+            obj.Height = root.ReadAttribute("height", 0);
+
+            // Read object properties.
+            var properties = ReadProperties(root);
+            foreach (var property in properties)
+            {
+                obj.Properties.Add(property.Key, property.Value);
+            }
+        }
+
+        private static void ReadGenericLayerInformation(TiledLayer layer, XElement root)
+        {
+            layer.Name = root.ReadAttribute("name", string.Empty);
+            layer.X = root.ReadAttribute("x", 0);
+            layer.Y = root.ReadAttribute("y", 0);
+            layer.Width = root.ReadAttribute("width", 0);
+            layer.Height = root.ReadAttribute("height", 0);
+            layer.Opacity = root.ReadAttribute("opacity", 1f);
+            layer.Visible = root.ReadAttribute("visible", true);
+
+            // Read layer properties.
+            var properties = ReadProperties(root);
+            foreach (var property in properties)
+            {
+                layer.Properties.Add(property.Key, property.Value);
             }
         }
 

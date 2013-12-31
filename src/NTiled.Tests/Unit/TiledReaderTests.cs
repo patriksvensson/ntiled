@@ -41,6 +41,8 @@ namespace NTiled.Tests.Unit
                 _map = data.ReadMapDocument("_0._91.Correct.tmx");
             }
 
+            #region Map Tests
+
             [Fact]
             public void Should_Read_Map_Version()
             {
@@ -114,6 +116,10 @@ namespace NTiled.Tests.Unit
                 Assert.Equal("Hello", result.Properties["MapProperty1"]);
             }
 
+            #endregion
+
+            #region Tileset Tests
+
             [Fact]
             public void Should_Read_Tilesets()
             {
@@ -183,7 +189,7 @@ namespace NTiled.Tests.Unit
                 // Given, When
                 var result = new TiledReader().Read(_map);
                 // Then
-                Assert.Equal("graphics/tileset.png", result.Tilesets[0].Image.Source);
+                Assert.Equal("../graphics/tileset.png", result.Tilesets[0].Image.Source);
             }
 
             [Fact]
@@ -224,6 +230,10 @@ namespace NTiled.Tests.Unit
                 Assert.Equal(7, result.Tilesets[0].Tiles[0].Id);
                 Assert.Equal("Foo", result.Tilesets[0].Tiles[0].Properties["TileProperty1"]);
             }
+
+            #endregion
+
+            #region Tile Layer Tests
 
             [Fact]
             public void Should_Read_Tile_Layers()
@@ -316,6 +326,178 @@ namespace NTiled.Tests.Unit
                 Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
                 Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
             }
+
+            #endregion
+
+            #region Object Group Tests
+
+            [Fact]
+            public void Should_Read_Object_Group_Name()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal("Objects", result.Layers[2].Name);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Color()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(Color.FromArgb(255, 85, 170, 0), ((TiledObjectGroup)result.Layers[2]).Color);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_X()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, result.Layers[2].X);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Y()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(2, result.Layers[2].Y);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Opacity()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(0.98f, result.Layers[2].Opacity);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Visibility()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.True(result.Layers[2].Visible);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Width()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(40, result.Layers[2].Width);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Height()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(30, result.Layers[2].Height);
+            }
+
+            [Fact]
+            public void Should_Read_Object_Group_Properties()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, result.Layers[0].Properties.Count);
+                Assert.Equal("Baz", result.Layers[2].Properties["ObjectGroupProperty1"]);
+            }
+
+            #endregion
+
+            #region Tile Object Tests
+
+            [Fact]
+            public void Should_Read_Tile_Object_Name()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal("Tile", ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Name);
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_Type()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal("Treasure", ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Type);
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_X_Position()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal(304, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().X);
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_Y_Position()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal(192, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Y);
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_Width()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal(32, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Width); 
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_Height()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal(16, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Height); 
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_Tile_ID()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().Count());
+                Assert.Equal(8, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Tile);
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Object_Properties()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Properties.Count);
+                Assert.Equal("Bar", ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledTileObject>().First().Properties["TileObjectProperty1"]);
+            }
+
+            #endregion
         }
     }
 }
