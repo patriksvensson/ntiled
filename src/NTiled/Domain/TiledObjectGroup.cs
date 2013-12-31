@@ -31,7 +31,7 @@ namespace NTiled
     /// </summary>
     public sealed class TiledObjectGroup : TiledLayer
     {
-        private List<TiledObject> _objects;
+        private readonly List<TiledObject> _objects;
 
         /// <summary>
         /// Gets or sets the color used to display the objects in this group..
