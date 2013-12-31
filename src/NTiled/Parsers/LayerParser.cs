@@ -106,9 +106,26 @@ namespace NTiled.Parsers
             // Read all objects.
             foreach (var objectElement in root.GetElements("object"))
             {
+                // Is this a tile object?
                 if (objectElement.HasAttribute("gid"))
-                {
+                {                   
                     ObjectParser.ReadTileObject(layer, objectElement);
+                }
+                else if (objectElement.HasElement("ellipse"))
+                {
+                    // TODO: Add support for ellipsis objects.
+                }
+                else if (objectElement.HasElement("polygon"))
+                {
+                    // TODO: Add support for polygon objects.
+                }
+                else if (objectElement.HasElement("polyline"))
+                {
+                    // TODO: Add support for polyline objects.
+                }
+                else
+                {
+                    ObjectParser.ReadRectangleObject(layer, objectElement);
                 }
             }
 

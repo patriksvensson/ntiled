@@ -29,15 +29,25 @@ namespace NTiled.Parsers
     {
         public static void ReadTileObject(TiledObjectGroup layer, XElement root)
         {
-            var tileObject = new TiledTileObject();
+            var obj = new TiledTileObject();
 
             // Read generic object information.
-            ReadGenericObjectInformation(tileObject, root);
+            ReadGenericObjectInformation(obj, root);
 
             // Read tile specific stuff.
-            tileObject.Tile = root.ReadAttribute("gid", 0);
+            obj.Tile = root.ReadAttribute("gid", 0);
 
-            layer.Objects.Add(tileObject);
+            layer.Objects.Add(obj);
+        }
+
+        public static void ReadRectangleObject(TiledObjectGroup layer, XElement root)
+        {
+            var obj = new TiledRectangleObject();
+
+            // Read generic object information.
+            ReadGenericObjectInformation(obj, root);
+
+            layer.Objects.Add(obj);
         }
 
         private static void ReadGenericObjectInformation(TiledObject obj, XElement root)

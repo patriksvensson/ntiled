@@ -43,6 +43,11 @@ namespace NTiled
             return null;
         }
 
+        public static bool HasElement(this XElement element, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        {
+            return GetElement(element, name, comparison) != null;
+        }
+
         public static XElement GetElement(this XElement element, string name, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             return element.Elements().FirstOrDefault(e => e.Name.LocalName.Equals(name, comparison));

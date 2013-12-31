@@ -37,6 +37,22 @@
     <property name="TileObjectProperty1" value="Bar"/>
    </properties>
   </object>
-  <object x="288" y="160" width="48" height="16"/>
+  <object name="Rectangle" type="Trigger" x="288" y="160" width="48" height="16">
+   <properties>
+    <property name="RectangleObjectProperty1" value="Bar"/>
+   </properties>
+  </object>
+  <object name="Ellipsis" type="Sphere" x="224" y="144" width="48" height="48">
+   <properties>
+    <property name="EllipsisProperty1" value="Foo"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object name="Polygon" type="Area" x="352" y="192">
+   <polygon points="0,0 64,0 32,-48"/>
+  </object>
+  <object name="Polyline" type="Path" x="192" y="224">
+   <polyline points="0,0 0,-112 256,-112 256,0"/>
+  </object>
  </objectgroup>
 </map>

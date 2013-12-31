@@ -498,6 +498,80 @@ namespace NTiled.Tests.Unit
             }
 
             #endregion
+
+            #region Rectangle Object Tests
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_Name()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
+                Assert.Equal("Rectangle", ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Name);
+            }
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_Type()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
+                Assert.Equal("Trigger", ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Type);
+            }
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_X_Position()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
+                Assert.Equal(288, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().X);
+            }
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_Y_Position()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
+                Assert.Equal(160, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Y);
+            }
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_Width()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
+                Assert.Equal(48, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Width);
+            }
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_Height()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
+                Assert.Equal(16, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Height);
+            }
+
+            [Fact]
+            public void Should_Read_Rectangle_Object_Properties()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Properties.Count);
+                Assert.Equal("Bar", ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Properties["RectangleObjectProperty1"]);
+            }
+
+            #endregion
         }
     }
 }

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Objects\TiledRectangleObject.cs" />
     <Compile Include="Domain\Objects\TiledTileObject.cs" />
     <Compile Include="Domain\TiledLayer.cs" />
     <Compile Include="Domain\TiledLayerCollection.cs" />
