@@ -29,7 +29,7 @@ namespace NTiled
     /// <summary>
     /// Representation of a Tiled map.
     /// </summary>
-    public sealed class TiledMap
+    public sealed class TiledMap : IHasProperties
     {
         private readonly TiledPropertyCollection _properties;
         private readonly TiledTilesetCollection _tilesets;

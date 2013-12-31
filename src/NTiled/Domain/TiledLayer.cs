@@ -26,7 +26,7 @@ namespace NTiled
     /// <summary>
     /// Represents a layer.
     /// </summary>
-    public abstract class TiledLayer
+    public abstract class TiledLayer : IHasProperties
     {
         private readonly TiledPropertyCollection _properties;
 

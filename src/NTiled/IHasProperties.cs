@@ -21,38 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // 
+
 namespace NTiled
 {
     /// <summary>
-    /// Represents a tile.
+    /// Marker interface for classes having a property collection.
     /// </summary>
-    public sealed class TiledTile : IHasProperties
+    public interface IHasProperties
     {
-        private readonly TiledPropertyCollection _properties;
-
         /// <summary>
-        /// Gets or sets the tileset index.
-        /// </summary>
-        /// <value>The tileset index.</value>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the properties.
+        /// Gets the properties.
         /// </summary>
         /// <value>The properties.</value>
-        public TiledPropertyCollection Properties
-        {
-            get { return _properties; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TiledTile"/> class.
-        /// </summary>
-        public TiledTile()
-        {
-            _properties = new TiledPropertyCollection();
-
-            this.Id = 0;
-        }
+        TiledPropertyCollection Properties { get; }
     }
 }

@@ -21,38 +21,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // 
-namespace NTiled
+using System.Xml.Linq;
+
+namespace NTiled.Parsers
 {
-    /// <summary>
-    /// Represents a tile.
-    /// </summary>
-    public sealed class TiledTile : IHasProperties
+    internal static class PropertyParser
     {
-        private readonly TiledPropertyCollection _properties;
-
-        /// <summary>
-        /// Gets or sets the tileset index.
-        /// </summary>
-        /// <value>The tileset index.</value>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the properties.
-        /// </summary>
-        /// <value>The properties.</value>
-        public TiledPropertyCollection Properties
+        public static void ReadProperties(IHasProperties owner, XElement root)
         {
-            get { return _properties; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TiledTile"/> class.
-        /// </summary>
-        public TiledTile()
-        {
-            _properties = new TiledPropertyCollection();
-
-            this.Id = 0;
+            var element = root.GetElement("properties");
+            if (element != null)
+            {
+                foreach (var property in element.GetElements("property"))
+                {
+                    var key = property.ReadAttribute("name", string.Empty);
+                    var value = property.ReadAttribute("value", string.Empty);
+                    owner.Properties.Add(key, value);
+                }
+            }
         }
     }
 }

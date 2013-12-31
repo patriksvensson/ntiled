@@ -21,38 +21,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // 
-namespace NTiled
+using System.Xml.Linq;
+
+namespace NTiled.Parsers
 {
-    /// <summary>
-    /// Represents a tile.
-    /// </summary>
-    public sealed class TiledTile : IHasProperties
+    internal static class ObjectParser
     {
-        private readonly TiledPropertyCollection _properties;
-
-        /// <summary>
-        /// Gets or sets the tileset index.
-        /// </summary>
-        /// <value>The tileset index.</value>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the properties.
-        /// </summary>
-        /// <value>The properties.</value>
-        public TiledPropertyCollection Properties
+        public static void ReadTileObject(TiledObjectGroup layer, XElement root)
         {
-            get { return _properties; }
+            var tileObject = new TiledTileObject();
+
+            // Read generic object information.
+            ReadGenericObjectInformation(tileObject, root);
+
+            // Read tile specific stuff.
+            tileObject.Tile = root.ReadAttribute("gid", 0);
+
+            layer.Objects.Add(tileObject);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TiledTile"/> class.
-        /// </summary>
-        public TiledTile()
+        private static void ReadGenericObjectInformation(TiledObject obj, XElement root)
         {
-            _properties = new TiledPropertyCollection();
+            obj.Name = root.ReadAttribute("name", string.Empty);
+            obj.Type = root.ReadAttribute("type", string.Empty);
+            obj.X = root.ReadAttribute("x", 0);
+            obj.Y = root.ReadAttribute("y", 0);
+            obj.Width = root.ReadAttribute("width", 0);
+            obj.Height = root.ReadAttribute("height", 0);
 
-            this.Id = 0;
+            // Read object properties.
+            PropertyParser.ReadProperties(obj, root);
         }
     }
 }
