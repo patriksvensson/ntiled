@@ -4,7 +4,7 @@ using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
 namespace NTiled.Utilties
 {
-    public static class StreamExtensions
+    internal static class StreamExtensions
     {
         public static Stream GetDecompressor(this Stream input, string compression)
         {

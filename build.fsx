@@ -1,5 +1,5 @@
 // Load the FAKE assembly.
-#r @"tools/FAKE.Core/tools/FakeLib.dll"
+#r @"tools/FAKE/tools/FakeLib.dll"
 open Fake 
 
 // Get the release notes.
