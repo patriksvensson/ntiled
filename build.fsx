@@ -1,5 +1,5 @@
 // Load the FAKE assembly.
-#r @"tools/FAKE.Core/tools/FakeLib.dll"
+#r @"tools/FAKE/tools/FakeLib.dll"
 open Fake 
 
 // Get the release notes.
@@ -84,7 +84,7 @@ Target "Create-NuGet-Package" (fun _ ->
     printfn "----------------------------------------\n"
 
     let coreRootDir = nugetRoot @@ "NTiled"
-    let coreLibDir = coreRootDir @@ "lib/net40/"
+    let coreLibDir = coreRootDir @@ "lib/net45/"
     CleanDirs [coreRootDir; coreLibDir]
 
     CopyFile coreLibDir (binDir @@ "NTiled.dll")
@@ -101,7 +101,7 @@ Target "Create-NuGet-Package" (fun _ ->
             Version = releaseNotes.AssemblyVersion
             ReleaseNotes = toLines releaseNotes.Notes
             AccessKey = getBuildParamOrDefault "nugetkey" ""
-            Publish = hasBuildParam "nugetkey" }) "./nuspec/NTiled.nuspec"
+            Publish = hasBuildParam "nugetkey" }) "./NTiled.nuspec"
 )
 
 Target "Help" (fun _ ->

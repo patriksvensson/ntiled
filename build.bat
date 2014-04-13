@@ -3,9 +3,18 @@
 :Build
 cls
 
-if not exist tools\FAKE.Core\tools\Fake.exe ( 
+echo Restoring NuGet packages for solution...
+"tools\nuget\nuget.exe" "restore" "src/NTiled.sln"
+echo.
+
+if not exist tools\fake\tools\Fake.exe ( 
 	echo Installing FAKE...
-	"tools\nuget\nuget.exe" "install" "FAKE.Core" "-OutputDirectory" "tools" "-ExcludeVersion" "-Prerelease"
+	"tools\nuget\nuget.exe" "install" "fake" "-OutputDirectory" "tools" "-ExcludeVersion" "-NonInteractive"
+	echo.
+)
+if not exist tools\xunit.runners\tools\xunit.console.exe (
+	echo Installing xUnit.net: Runners...
+	"tools\nuget\nuget.exe" "install" "xunit.runners" "-OutputDirectory" "tools" "-ExcludeVersion" "-NonInteractive"
 	echo.
 )
 
@@ -15,7 +24,7 @@ SET BUILDMODE="Release"
 IF NOT [%2]==[] (set BUILDMODE="%2")
 
 echo Starting FAKE...
-"tools\FAKE.Core\tools\Fake.exe" "build.fsx" "target=%TARGET%" "buildMode=%BUILDMODE%"
+"tools\FAKE\tools\Fake.exe" "build.fsx" "target=%TARGET%" "buildMode=%BUILDMODE%"
 
 rem Loop the build script.
 echo.
