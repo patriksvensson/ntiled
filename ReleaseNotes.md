@@ -7,4 +7,4 @@
 * Added rectangle object support.
 
 ### New in 0.1.2 (Released 2014/04/14)
-* Added support for zlib and uncompressed tmx files.
+* Added support for zlib and uncompressed tmx files. (Contributed by Naeem Khedarun)
