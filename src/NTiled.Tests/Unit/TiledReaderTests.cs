@@ -35,10 +35,14 @@ namespace NTiled.Tests.Unit
         public class TheReadMethod : IUseFixture<ResourceFixture>
         {
             private XDocument _map;
+            private XDocument _bzipMap;
+            private XDocument _uncompressedMap;
 
             public void SetFixture(ResourceFixture data)
             {
                 _map = data.ReadMapDocument("_0._91.Correct.tmx");
+                _bzipMap = data.ReadMapDocument("_0._91.Base64Zlib.tmx");
+                _uncompressedMap = data.ReadMapDocument("_0._91.Base64Uncompressed.tmx");
             }
 
             #region Map Tests
@@ -322,6 +326,26 @@ namespace NTiled.Tests.Unit
             {
                 // Given, When
                 var result = new TiledReader().Read(_map);
+                // Then
+                Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
+                Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Layer_Indices_If_Compressed_With_BZip_And_Encoded_With_Base64()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_bzipMap);
+                // Then
+                Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
+                Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Layer_Indices_If_Uncompressed_Encoded_With_Base64()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_uncompressedMap);
                 // Then
                 Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
                 Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
