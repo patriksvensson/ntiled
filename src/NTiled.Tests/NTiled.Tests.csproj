@@ -57,6 +57,12 @@
     <EmbeddedResource Include="Data\0.91\Correct.tmx" />
     <EmbeddedResource Include="Data\0.91\Base64Uncompressed.tmx" />
     <EmbeddedResource Include="Data\0.91\Base64Zlib.tmx" />
+    <Content Include="Data\0.91\meta.tsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\0.91\WithExternalTileset.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

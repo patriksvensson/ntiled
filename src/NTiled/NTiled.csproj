@@ -57,6 +57,7 @@
     <Compile Include="Domain\TiledTileCollection.cs" />
     <Compile Include="Domain\TiledTileLayer.cs" />
     <Compile Include="IHasProperties.cs" />
+    <Compile Include="Importers\TilesetImporter.cs" />
     <Compile Include="Parsers\HeaderParser.cs" />
     <Compile Include="Parsers\LayerParser.cs" />
     <Compile Include="Parsers\ObjectParser.cs" />
