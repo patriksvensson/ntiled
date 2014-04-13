@@ -24,9 +24,11 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Xml.Linq;
+using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using NTiled.Utilties;
 
 namespace NTiled.Parsers
 {
@@ -71,16 +73,16 @@ namespace NTiled.Parsers
         private static void ReadTileLayerData(TiledTileLayer layer, XElement root)
         {
             string encoding = root.ReadAttribute<string>("encoding", null);
-            string compression = root.ReadAttribute<string>("compression", null);
-
+            string compression = root.ReadAttribute<string>("compression", string.Empty);
+            
             bool canUnencode = encoding != null && encoding.Equals("base64", StringComparison.OrdinalIgnoreCase);
-            bool canDecompress = compression != null && compression.Equals("gzip", StringComparison.OrdinalIgnoreCase);
+            bool canCompress = new [] { "gzip", "zlib", string.Empty }.Contains(compression.ToLower());
 
-            if (canUnencode && canDecompress)
+            if (canUnencode && canCompress)
             {
                 string content = root.Value;
                 using (Stream unencoded = new MemoryStream(Convert.FromBase64String(content), false))
-                using (GZipStream uncompressed = new GZipStream(unencoded, CompressionMode.Decompress, false))
+                using (Stream uncompressed = unencoded.GetDecompressor(compression))
                 using (BinaryReader reader = new BinaryReader(uncompressed))
                 {
                     var tiles = new int[layer.Width * layer.Height];

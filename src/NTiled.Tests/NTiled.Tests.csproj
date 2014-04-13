@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\0.91\Correct.tmx" />
+    <EmbeddedResource Include="Data\0.91\Base64Uncompressed.tmx" />
+    <EmbeddedResource Include="Data\0.91\Base64Zlib.tmx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

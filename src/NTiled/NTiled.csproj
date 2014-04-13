@@ -34,6 +34,9 @@
     <DocumentationFile>bin\Release\NTiled.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -67,11 +70,15 @@
     <Compile Include="Domain\TiledTilesetCollection.cs" />
     <Compile Include="Domain\TiledImage.cs" />
     <Compile Include="Parsers\TilesetParser.cs" />
+    <Compile Include="Utilties\StreamExtensions.cs" />
     <Compile Include="Utilties\StringExtensions.cs" />
     <Compile Include="Utilties\XmlExtensions.cs" />
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
