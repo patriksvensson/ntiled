@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 // 
 
+using System;
 using System.IO;
 using System.Xml.Linq;
 using NTiled.Importers;
@@ -57,13 +58,18 @@ namespace NTiled
         /// <summary>
         /// Parses the specified map.
         /// </summary>
-        /// <param name="document">The map.</param>
+        /// <param name="filename">The filename of the external tile set.</param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public TiledMap Read(string fullname)
+        public TiledMap Read(string filename)
         {
-            var document = XDocument.Load(fullname);
-            var basePath = new FileInfo(fullname).DirectoryName;
+            if (filename == null)
+            {
+                throw new ArgumentNullException("filename");
+            }
+
+            var document = XDocument.Load(filename);
+            var basePath = new FileInfo(filename).DirectoryName;
             
             // Import external files into the main document
             TilesetImporter.ImportTilesets(document, basePath);

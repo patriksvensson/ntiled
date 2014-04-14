@@ -38,7 +38,7 @@
     <property name="TileObjectProperty1" value="Bar"/>
    </properties>
   </object>
-  <object name="Rectangle" type="Trigger" x="288" y="160" width="48" height="16">
+  <object name="Rectangle" type="Trigger" x="288" y="160" width="48.2" height="16.1">
    <properties>
     <property name="RectangleObjectProperty1" value="Bar"/>
    </properties>

@@ -585,7 +585,7 @@ namespace NTiled.Tests.Unit
                 var result = new TiledReader().Read(_map);
                 // Then
                 Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
-                Assert.Equal(48, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Width);
+                Assert.Equal(48.2M, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Width);
             }
 
             [Fact]
@@ -595,7 +595,7 @@ namespace NTiled.Tests.Unit
                 var result = new TiledReader().Read(_map);
                 // Then
                 Assert.Equal(1, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().Count());
-                Assert.Equal(16, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Height);
+                Assert.Equal(16.1M, ((TiledObjectGroup)result.Layers[2]).Objects.OfType<TiledRectangleObject>().First().Height);
             }
 
             [Fact]
