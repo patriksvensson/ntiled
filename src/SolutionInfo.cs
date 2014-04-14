@@ -25,7 +25,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyProductAttribute("NTiled")]
-[assembly: AssemblyCopyright("Copyright © Patrik Svensson 2013")]
-[assembly: AssemblyVersionAttribute("0.1.2")]
-[assembly: AssemblyFileVersionAttribute("0.1.2")]
+[assembly: AssemblyCopyright("Copyright © Patrik Svensson 2014")]
+[assembly: AssemblyVersionAttribute("0.1.3")]
+[assembly: AssemblyFileVersionAttribute("0.1.3")]
 [assembly: ComVisibleAttribute(false)]
