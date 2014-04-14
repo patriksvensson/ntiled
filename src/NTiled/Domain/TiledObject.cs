@@ -59,7 +59,7 @@ namespace NTiled
         /// Gets or sets the width of the object in pixels.
         /// </summary>
         /// <value>The width of the object in pixels.</value>
-        public int Width { get; set; }
+        public decimal Width { get; set; }
 
         /// <summary>
         /// Gets or sets the height of the object in pixels.
