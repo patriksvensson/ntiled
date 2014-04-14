@@ -21,7 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // 
+
+using System.IO;
 using System.Xml.Linq;
+using NTiled.Importers;
 using NTiled.Parsers;
 
 namespace NTiled
@@ -49,6 +52,23 @@ namespace NTiled
             LayerParser.ReadLayers(map, root);
 
             return map;
+        }
+
+        /// <summary>
+        /// Parses the specified map.
+        /// </summary>
+        /// <param name="document">The map.</param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        public TiledMap Read(string fullname)
+        {
+            var document = XDocument.Load(fullname);
+            var basePath = new FileInfo(fullname).DirectoryName;
+            
+            // Import external files into the main document
+            TilesetImporter.ImportTilesets(document, basePath);
+
+            return Read(document);
         }
     }
 }

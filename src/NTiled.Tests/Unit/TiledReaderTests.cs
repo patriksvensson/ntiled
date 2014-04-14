@@ -37,12 +37,14 @@ namespace NTiled.Tests.Unit
             private XDocument _map;
             private XDocument _bzipMap;
             private XDocument _uncompressedMap;
+            private string _withExternalTilesetMap;
 
             public void SetFixture(ResourceFixture data)
             {
                 _map = data.ReadMapDocument("_0._91.Correct.tmx");
                 _bzipMap = data.ReadMapDocument("_0._91.Base64Zlib.tmx");
                 _uncompressedMap = data.ReadMapDocument("_0._91.Base64Uncompressed.tmx");
+                _withExternalTilesetMap = @"Data\0.91\WithExternalTileset.tmx";
             }
 
             #region Map Tests
@@ -130,7 +132,7 @@ namespace NTiled.Tests.Unit
                 // Given, When
                 var result = new TiledReader().Read(_map);
                 // Then
-                Assert.Equal(2, result.Tilesets.Count);
+                Assert.Equal(3, result.Tilesets.Count);
             }
 
             [Fact]
@@ -233,6 +235,17 @@ namespace NTiled.Tests.Unit
                 Assert.Equal(1, result.Tilesets[0].Tiles.Count);
                 Assert.Equal(7, result.Tilesets[0].Tiles[0].Id);
                 Assert.Equal("Foo", result.Tilesets[0].Tiles[0].Properties["TileProperty1"]);
+            }
+
+            [Fact]
+            public void Should_Read_Linked_Tileset()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_withExternalTilesetMap);
+                // Then
+                Assert.Equal(6, result.Tilesets[2].Tiles.Count);
+                Assert.Equal(5, result.Tilesets[2].Tiles[5].Id);
+                Assert.Equal("solid", result.Tilesets[2].Tiles[0].Properties["type"]);
             }
 
             #endregion

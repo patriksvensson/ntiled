@@ -57,7 +57,7 @@ namespace NTiled.Parsers
             obj.X = root.ReadAttribute("x", 0);
             obj.Y = root.ReadAttribute("y", 0);
             obj.Width = root.ReadAttribute("width", 0);
-            obj.Height = root.ReadAttribute("height", 0);
+            obj.Height = root.ReadAttribute("height", 0.0m);
 
             // Read object properties.
             PropertyParser.ReadProperties(obj, root);
