@@ -37,6 +37,7 @@ namespace NTiled.Tests.Unit
             private XDocument _map;
             private XDocument _bzipMap;
             private XDocument _uncompressedMap;
+            private XDocument _csvMap;
             private string _withExternalTilesetMap;
 
             public void SetFixture(ResourceFixture data)
@@ -44,6 +45,7 @@ namespace NTiled.Tests.Unit
                 _map = data.ReadMapDocument("_0._91.Correct.tmx");
                 _bzipMap = data.ReadMapDocument("_0._91.Base64Zlib.tmx");
                 _uncompressedMap = data.ReadMapDocument("_0._91.Base64Uncompressed.tmx");
+                _csvMap = data.ReadMapDocument("_0._91.Csv.tmx");
                 _withExternalTilesetMap = @"Data\0.91\WithExternalTileset.tmx";
             }
 
@@ -359,6 +361,16 @@ namespace NTiled.Tests.Unit
             {
                 // Given, When
                 var result = new TiledReader().Read(_uncompressedMap);
+                // Then
+                Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
+                Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
+            }
+
+            [Fact]
+            public void Should_Read_Tile_Layer_Indices_If_Csv()
+            {
+                // Given, When
+                var result = new TiledReader().Read(_csvMap);
                 // Then
                 Assert.Equal(1, ((TiledTileLayer)result.Layers[0]).Tiles.Count(x => x != 0));
                 Assert.Equal(2, ((TiledTileLayer)result.Layers[0]).Tiles.First(x => x != 0));
