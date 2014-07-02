@@ -63,6 +63,7 @@
     <Content Include="Data\0.91\WithExternalTileset.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Data\0.91\Csv.tmx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

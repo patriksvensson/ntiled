@@ -23,6 +23,7 @@
 // 
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -73,25 +74,47 @@ namespace NTiled.Parsers
         private static void ReadTileLayerData(TiledTileLayer layer, XElement root)
         {
             string encoding = root.ReadAttribute<string>("encoding", null);
-            string compression = root.ReadAttribute<string>("compression", string.Empty);
-            
-            bool canUnencode = encoding != null && encoding.Equals("base64", StringComparison.OrdinalIgnoreCase);
-            bool canCompress = new [] { "gzip", "zlib", string.Empty }.Contains(compression.ToLower());
 
-            if (canUnencode && canCompress)
+            if (encoding != null)
             {
-                string content = root.Value;
-                using (Stream unencoded = new MemoryStream(Convert.FromBase64String(content), false))
-                using (Stream uncompressed = unencoded.GetDecompressor(compression))
-                using (BinaryReader reader = new BinaryReader(uncompressed))
+                if (encoding.Equals("csv", StringComparison.OrdinalIgnoreCase))
+                    ReadCsvTileLayer(layer, root);
+                else if (encoding.Equals("base64", StringComparison.OrdinalIgnoreCase))
+                    ReadBase64TileLayer(layer, root);
+            }
+        }
+
+        private static void ReadCsvTileLayer(TiledTileLayer layer, XElement root)
+        {
+            var value = root.Value;
+
+            if (!String.IsNullOrEmpty(value))
+            {
+                var parsed = value.Split(',')
+                                   .Select(s => Int32.Parse(s, NumberStyles.Integer | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingWhite, CultureInfo.InvariantCulture))
+                                   .ToArray();
+
+                layer.SetTileData(parsed);
+            }
+        }
+
+        private static void ReadBase64TileLayer(TiledTileLayer layer, XElement root)
+        {
+            string compression = root.ReadAttribute<string>("compression", string.Empty);
+            bool canCompress = new[] { "gzip", "zlib", string.Empty }.Contains(compression.ToLower());
+
+            string content = root.Value;
+
+            using (Stream unencoded = new MemoryStream(Convert.FromBase64String(content), false))
+            using (Stream uncompressed = unencoded.GetDecompressor(compression))
+            using (BinaryReader reader = new BinaryReader(uncompressed))
+            {
+                var tiles = new int[layer.Width * layer.Height];
+                for (int i = 0; i < layer.Width * layer.Height; i++)
                 {
-                    var tiles = new int[layer.Width * layer.Height];
-                    for (int i = 0; i < layer.Width * layer.Height; i++)
-                    {
-                        tiles[i] = reader.ReadInt32();
-                    }
-                    layer.SetTileData(tiles);
+                    tiles[i] = reader.ReadInt32();
                 }
+                layer.SetTileData(tiles);
             }
         }
 
@@ -110,7 +133,7 @@ namespace NTiled.Parsers
             {
                 // Is this a tile object?
                 if (objectElement.HasAttribute("gid"))
-                {                   
+                {
                     ObjectParser.ReadTileObject(layer, objectElement);
                 }
                 else if (objectElement.HasElement("ellipse"))
