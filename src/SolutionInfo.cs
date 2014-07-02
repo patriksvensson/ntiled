@@ -26,6 +26,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyProductAttribute("NTiled")]
 [assembly: AssemblyCopyright("Copyright © Patrik Svensson 2014")]
-[assembly: AssemblyVersionAttribute("0.1.3")]
-[assembly: AssemblyFileVersionAttribute("0.1.3")]
+[assembly: AssemblyVersionAttribute("0.1.5")]
+[assembly: AssemblyFileVersionAttribute("0.1.5")]
 [assembly: ComVisibleAttribute(false)]
