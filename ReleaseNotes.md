@@ -1,3 +1,6 @@
+### New in 0.1.6 (Released 2014/07/03)
+* Update for decimal object positions. (Contributed by Naeem Khedarun)
+
 ### New in 0.1.5 (Released 2014/07/03)
 * Fixed version number.
 
