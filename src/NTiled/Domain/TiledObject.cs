@@ -47,13 +47,13 @@ namespace NTiled
         /// Gets or sets the x coordinate of the object in pixels.
         /// </summary>
         /// <value>The x coordinate of the object in pixels.</value>
-        public int X { get; set; }
+        public decimal X { get; set; }
 
         /// <summary>
         /// Gets or sets the y coordinate of the object in pixels.
         /// </summary>
         /// <value>The y coordinate of the object in pixels.</value>
-        public int Y { get; set; }
+        public decimal Y { get; set; }
 
         /// <summary>
         /// Gets or sets the width of the object in pixels.
