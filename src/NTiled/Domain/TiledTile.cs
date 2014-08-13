@@ -52,7 +52,7 @@ namespace NTiled
         {
             _properties = new TiledPropertyCollection();
 
-            this.Id = 0;
+            Id = 0;
         }
     }
 }

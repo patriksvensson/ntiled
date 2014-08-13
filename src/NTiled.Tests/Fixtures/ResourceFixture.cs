@@ -49,9 +49,14 @@ namespace NTiled.Tests.Fixtures
                     var assembly = Assembly.GetExecutingAssembly();
                     var resourceName = string.Concat("NTiled.Tests.Data.", filename);
 
-                    using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+                    using (var stream = assembly.GetManifestResourceStream(resourceName))
                     {
-                        using (StreamReader reader = new StreamReader(stream))
+                        if (stream == null)
+                        {
+                            const string format = "Could not read manifest resource stream for '{0}'.";
+                            throw new InvalidOperationException(string.Format(format, resourceName));
+                        }
+                        using (var reader = new StreamReader(stream))
                         {
                             _cache.Add(filename, XDocument.Parse(reader.ReadToEnd()));
                         }

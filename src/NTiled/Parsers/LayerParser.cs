@@ -27,8 +27,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using NTiled.Utilties;
 
 namespace NTiled.Parsers
@@ -55,13 +53,13 @@ namespace NTiled.Parsers
 
         private static void ReadTileLayer(TiledMap map, XElement root)
         {
-            TiledTileLayer layer = new TiledTileLayer();
+            var layer = new TiledTileLayer();
 
             // Read generic layer information.
             ReadGenericLayerInformation(layer, root);
 
             // Read layer data.
-            XElement dataElement = root.Element("data");
+            var dataElement = root.Element("data");
             if (dataElement != null)
             {
                 ReadTileLayerData(layer, dataElement);
@@ -73,7 +71,7 @@ namespace NTiled.Parsers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         private static void ReadTileLayerData(TiledTileLayer layer, XElement root)
         {
-            string encoding = root.ReadAttribute<string>("encoding", null);
+            var encoding = root.ReadAttribute<string>("encoding", null);
 
             if (encoding != null)
             {
@@ -100,17 +98,15 @@ namespace NTiled.Parsers
 
         private static void ReadBase64TileLayer(TiledTileLayer layer, XElement root)
         {
-            string compression = root.ReadAttribute<string>("compression", string.Empty);
-            bool canCompress = new[] { "gzip", "zlib", string.Empty }.Contains(compression.ToLower());
+            var compression = root.ReadAttribute("compression", string.Empty);
+            var content = root.Value;
 
-            string content = root.Value;
-
-            using (Stream unencoded = new MemoryStream(Convert.FromBase64String(content), false))
-            using (Stream uncompressed = unencoded.GetDecompressor(compression))
-            using (BinaryReader reader = new BinaryReader(uncompressed))
+            using (var unencoded = new MemoryStream(Convert.FromBase64String(content), false))
+            using (var uncompressed = unencoded.GetDecompressor(compression))
+            using (var reader = new BinaryReader(uncompressed))
             {
                 var tiles = new int[layer.Width * layer.Height];
-                for (int i = 0; i < layer.Width * layer.Height; i++)
+                for (var i = 0; i < layer.Width * layer.Height; i++)
                 {
                     tiles[i] = reader.ReadInt32();
                 }

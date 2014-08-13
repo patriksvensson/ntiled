@@ -37,6 +37,11 @@ namespace NTiled.Importers
                 if (!string.IsNullOrEmpty(tilesetSource))
                 {
                     var xDocument = XDocument.Load(Path.Combine(basePath, tilesetSource));
+                    if (xDocument.Root == null)
+                    {
+                        throw new TiledException("External tileset reference is invalid.");
+                    }
+
                     tilesetElement.SetAttributeValue("name", xDocument.Root.ReadAttribute("name", string.Empty));
                     tilesetElement.SetAttributeValue("tilewidth", xDocument.Root.ReadAttribute("tilewidth", 0));
                     tilesetElement.SetAttributeValue("tileheight", xDocument.Root.ReadAttribute("tileheight", 0));

@@ -89,11 +89,11 @@ namespace NTiled
         {
             _properties = new TiledPropertyCollection();
 
-            this.Name = string.Empty;
-            this.Width = 0;
-            this.Height = 0;
-            this.Opacity = 1f;
-            this.Visible = true;
+            Name = string.Empty;
+            Width = 0;
+            Height = 0;
+            Opacity = 1f;
+            Visible = true;
         }
     }
 }

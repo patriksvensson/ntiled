@@ -67,11 +67,11 @@ namespace NTiled.Parsers
 
         private static List<TiledTile> ReadTilesetMetadata(XElement root)
         {
-            List<TiledTile> tiles = new List<TiledTile>();
-            IEnumerable<XElement> tileElements = root.Elements("tile");
-            foreach (XElement tileElement in tileElements)
+            var tiles = new List<TiledTile>();
+            var tileElements = root.Elements("tile");
+            foreach (var tileElement in tileElements)
             {
-                TiledTile tile = new TiledTile();
+                var tile = new TiledTile();
                 tile.Id = tileElement.ReadAttribute("id", 0);
 
                 PropertyParser.ReadProperties(tile, tileElement);
@@ -86,8 +86,8 @@ namespace NTiled.Parsers
             var element = root.GetElement("tileoffset");
             if (element != null)
             {
-                int x = element.ReadAttribute("x", 0);
-                int y = element.ReadAttribute("y", 0);
+                var x = element.ReadAttribute("x", 0);
+                var y = element.ReadAttribute("y", 0);
                 return new Tuple<int, int>(x, y);
             }
             return new Tuple<int, int>(0, 0);

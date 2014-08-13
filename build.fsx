@@ -1,6 +1,7 @@
 // Load the FAKE assembly.
 #r @"tools/FAKE/tools/FakeLib.dll"
 open Fake 
+open Fake.AssemblyInfoFile
 
 // Get the release notes.
 // It's here we will get stuff like version number from.
@@ -25,6 +26,20 @@ Target "Clean" (fun _ ->
     printfn "----------------------------------------\n"
 
     CleanDirs [buildDir; binDir; testResultsDir; nugetRoot]
+)
+
+Target "Set-Versions" (fun _ ->
+
+    let attributes = 
+        [
+            Attribute.Product "NTiled"
+            Attribute.Version releaseNotes.AssemblyVersion
+            Attribute.FileVersion releaseNotes.AssemblyVersion
+            Attribute.ComVisible false
+            Attribute.Copyright "Copyright (c) Patrik Svensson 2014"
+        ]
+
+    CreateCSharpAssemblyInfoWithConfig "./src/SolutionInfo.cs" attributes <| AssemblyInfoFileConfig(false)
 )
 
 Target "Build" (fun _ ->
@@ -95,7 +110,7 @@ Target "Create-NuGet-Package" (fun _ ->
 
     NuGet (fun p -> 
         {p with
-            Project = "NTiled"                           
+            Project = "NTiled"
             OutputPath = nugetRoot
             WorkingDir = coreRootDir
             Version = releaseNotes.AssemblyVersion
@@ -123,6 +138,7 @@ Target "All" DoNothing
 // Setup the target dependency graph.
 "Clean"
    ==> "Build"
+   ==> "Set-Versions"
    ==> "Run-Unit-Tests"
    ==> "Copy-Files"
    ==> "Package-Files"

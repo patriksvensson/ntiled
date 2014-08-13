@@ -1,3 +1,6 @@
+### New in 0.1.7 (Released 2014/08/13)
+* Added missing dependency for SharpZipLib.
+
 ### New in 0.1.6 (Released 2014/07/03)
 * Update for decimal object positions. (Contributed by Naeem Khedarun)
 
