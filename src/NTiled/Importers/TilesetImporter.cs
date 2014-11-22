@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 // 
 
+using System;
 using System.IO;
 using System.Xml.Linq;
 
@@ -31,12 +32,22 @@ namespace NTiled.Importers
     {
         public static void ImportTilesets(XDocument document, string basePath)
         {
+            ImportTilesets(document, tilesetSource => XDocument.Load(Path.Combine(basePath, tilesetSource)));
+        }
+
+        public static void ImportTilesets(XDocument document, Func<string, XDocument> resolver)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
             foreach (var tilesetElement in document.Root.GetElements("tileset"))
             {
                 var tilesetSource = tilesetElement.ReadAttribute("source", string.Empty);
                 if (!string.IsNullOrEmpty(tilesetSource))
                 {
-                    var xDocument = XDocument.Load(Path.Combine(basePath, tilesetSource));
+                    var xDocument = resolver(tilesetSource);
                     if (xDocument.Root == null)
                     {
                         throw new TiledException("External tileset reference is invalid.");

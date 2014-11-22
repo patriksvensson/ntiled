@@ -43,6 +43,11 @@ namespace NTiled
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
         public TiledMap Read(XDocument document)
         {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
             var root = document.GetDocumentRoot("map");
             var map = new TiledMap();
 
@@ -53,6 +58,23 @@ namespace NTiled
             LayerParser.ReadLayers(map, root);
 
             return map;
+        }
+        /// <summary>
+        /// Parses the specified map.
+        /// </summary>
+        /// <param name="document">The map.</param>
+        /// <param name="tilesetResolver">The external tileset resolver.</param>
+        /// <returns></returns>
+        public TiledMap Read(XDocument document, Func<string, XDocument> tilesetResolver)
+        {
+            if (tilesetResolver == null)
+            {
+                throw new ArgumentNullException("tilesetResolver");
+            }
+
+            TilesetImporter.ImportTilesets(document, tilesetResolver);
+
+            return Read(document);
         }
 
         /// <summary>
