@@ -23,6 +23,7 @@
 // 
 using System;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using NTiled.Tests.Fixtures;
@@ -244,6 +245,20 @@ namespace NTiled.Tests.Unit
             {
                 // Given, When
                 var result = new TiledReader().Read(_withExternalTilesetMap);
+                // Then
+                Assert.Equal(6, result.Tilesets[2].Tiles.Count);
+                Assert.Equal(5, result.Tilesets[2].Tiles[5].Id);
+                Assert.Equal("solid", result.Tilesets[2].Tiles[0].Properties["type"]);
+            }
+
+            [Fact]
+            public void Should_Read_Linked_Tileset_Using_A_Custom_Resolver()
+            {
+                // Given, When
+                var source = XDocument.Load(_withExternalTilesetMap);
+                var root = Path.GetDirectoryName(_withExternalTilesetMap);
+                var result = new TiledReader().Read(source, (name) => XDocument.Load(Path.Combine(root, name)));
+
                 // Then
                 Assert.Equal(6, result.Tilesets[2].Tiles.Count);
                 Assert.Equal(5, result.Tilesets[2].Tiles[5].Id);
