@@ -161,7 +161,9 @@ namespace NTiled.Parsers
             layer.Width = root.ReadAttribute("width", 0);
             layer.Height = root.ReadAttribute("height", 0);
             layer.Opacity = root.ReadAttribute("opacity", 1f);
-            layer.Visible = root.ReadAttribute("visible", true);
+
+            try { layer.Visible = root.ReadAttribute("visible", true); }
+            catch { layer.Visible = root.ReadAttribute("visible", 1) == 1; }
 
             // Read layer properties.
             PropertyParser.ReadProperties(layer, root);
